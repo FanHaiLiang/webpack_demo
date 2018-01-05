@@ -10,20 +10,10 @@ const copyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = require('./src/env_config');
 
-if(process.env.type == "dev"){
-  console.log(process.env.type);
-  var website = {
-    host:config.host,
-    port:config.port,
-    publicPath:"http://Localhost:2017/"
-  }
+if(process.env.NODE_ENV === 'production'){
+  console.log(config);
 }else{
-  console.log(process.env.type);
-  var website = {
-    host:config.host,
-    port:config.port,
-    publicPath:"http://Localhost:2017/"
-  }
+  console.log(config);
 }
 
 module.exports = {
@@ -35,7 +25,7 @@ module.exports = {
   output:{
     path:path.resolve(__dirname,'dist'),
     filename:'[name].js',
-    publicPath:website.publicPath
+    publicPath:`http://${config.host}:${config.port}/`
   },
   module:{
     rules:[
@@ -101,7 +91,7 @@ module.exports = {
       _:"lodash"
     }),
     //用于在JS中加上我们的版权和开发者声明
-    new webpack.BannerPlugin('范海亮的代码'),
+    new webpack.BannerPlugin('范海亮的代码!'),
     //抽离大的库
     new webpack.optimize.CommonsChunkPlugin({
       //name对应入口文件中的名字，我们起的时jQuery
@@ -121,11 +111,11 @@ module.exports = {
     //设置基本目录结构
     contentBase: path.resolve(__dirname,'dist'),
     //服务器的IP地址，可以使用IP也可以使用Localhost
-    host:website.host,
+    host:config.host,
     //服务器端压缩是否开启
     compress:true,
     //配置服务器端口号
-    port:website.port
+    port:config.port
   },
   // watchOptions:{
   //   //检测修改的时间 以毫秒为单位

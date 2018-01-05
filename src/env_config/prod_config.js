@@ -1,8 +1,7 @@
 module.exports = {
 	port          :8080,
-	domain        :'127.0.0.1/',
+	host          :'127.0.0.1',
 	apiServer     :{
-		// domain: "http://123.56.177.106",
 		domain:"http://api.peapad.com.cn",
 		port  :"80",
 		prefix:"/api/p"
