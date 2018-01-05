@@ -11,14 +11,12 @@ const copyWebpackPlugin = require('copy-webpack-plugin');
 const config = require('./src/env_config');
 
 if(process.env.type == "dev"){
-  console.log(process.env.type);
   var website = {
     host:config.host,
     port:config.port,
     publicPath:"http://Localhost:2017/"
   }
 }else{
-  console.log(process.env.type);
   var website = {
     host:config.host,
     port:config.port,
@@ -114,8 +112,8 @@ module.exports = {
       minChunks:2
     }),
     new copyWebpackPlugin([{
-      from:__dirname+'/src/public',
-      to:'./public'
+      from:'src/public',
+      to:'public'
     }]),
     new webpack.HotModuleReplacementPlugin()
   ],
