@@ -11,12 +11,14 @@ const copyWebpackPlugin = require('copy-webpack-plugin');
 const config = require('./src/env_config');
 
 if(process.env.type == "dev"){
+  console.log(process.env.type);
   var website = {
     host:config.host,
     port:config.port,
     publicPath:"http://Localhost:2017/"
   }
 }else{
+  console.log(process.env.type);
   var website = {
     host:config.host,
     port:config.port,
@@ -28,9 +30,7 @@ module.exports = {
   devtool:"eval-source-map",
   entry:{
     entry:'./src/entry.js',
-    vue:'vue',
-    lodash:'lodash',
-    react:'react',
+    vendor:['vue','react','lodash'],
   },
   output:{
     path:path.resolve(__dirname,'dist'),
@@ -91,7 +91,7 @@ module.exports = {
       //是要大包的html模板路径和文件名称
       template:'./src/index.html'
     }),
-    new extractTextPlugin("/css/index.css"),
+    new extractTextPlugin("css/index.css"),
     //删除多余的css的样式
     new PurifyCSSPlugin({
       paths: glob.sync(path.join(__dirname,'src/*.html')),
@@ -105,15 +105,15 @@ module.exports = {
     //抽离大的库
     new webpack.optimize.CommonsChunkPlugin({
       //name对应入口文件中的名字，我们起的时jQuery
-      name:['vue','react','lodash'],
+      name:'vendor',
       //把文件打包到哪里，是一个路径
       filename:'assets/js/[name].js',
       //最小打包的文件模块数，这里直接写2就好
       minChunks:2
     }),
     new copyWebpackPlugin([{
-      from:'src/public',
-      to:'public'
+      from:'./src/public',
+      to:__dirname + 'public'
     }]),
     new webpack.HotModuleReplacementPlugin()
   ],

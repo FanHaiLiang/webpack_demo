@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "set type=dev&webpack & npm run clean & npm run server",
+    "dev": "set NODE_ENV=dev&webpack&npm run clean & npm run server",
+    "pro": "set NODE_ENV=production&webpack&npm run server",
     "test": "set type=dev&webpack & npm run clean & webpack-dev-server",
     "server": "webpack-dev-server --open",
     "clean": "rimraf dist"
